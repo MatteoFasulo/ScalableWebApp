@@ -5,9 +5,9 @@ Build a scalable architecture using sotftware virtualization (Docker) and contai
 ### Architecture
 The following image represents the architecture proposed as well as the services implemented on Manager and Worker nodes.
 
-<hr>
+<br>
 <img src=https://i.imgur.com/ZHUUYUZ.png>
-<hr>
+<br>
 
 #### Master Node(s)
 The master node implements the following services:
