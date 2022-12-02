@@ -27,7 +27,7 @@ A deep dive into the services used so everyone can understand why we used such s
 	- Docker-compose lacks of functions that Swarm manages like secret-information storage, auto-recovery of services, rollbacks and healthchecks that in a production evniroment are a **must**.
 	- Docker Swarm implements the same docker-compose.yml syntax for services.
 - Why ShinyProxy?
-	- Since our initial WebApp was a Shiny App we needed an environment that could host a Shiny App. If you are not familiar with shiny you can skip this part.  At the current state of art threre are three ways of hosting a Shiny App:
+	- Since our initial WebApp was a Shiny App we needed an environment that could host a Shiny App. If you are not familiar with shiny you can skip this part.  At the current state of art there are three ways of hosting a Shiny App:
 		- [Shinyapps.io](http://www.shinyapps.io/) - a cloud based free hosting service with no hardware installation or annual purchase contract required.
 		- [Shiny Server](https://www.rstudio.com/products/shiny/shiny-server/) - open source server to host multiple shiny apps even behind firewall.
 		- [RStudio Connect](https://www.rstudio.com/products/connect/) - 
