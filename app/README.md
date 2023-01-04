@@ -14,7 +14,7 @@ If the firewall is enabled, the following ports must be opened:
 - 7946 # docker swarm
 
 ## Domains
-To be able to use this application you will need to point three different domains to your public IP address:
+To be able to use this application you will need to point three different domains to your public IP address (A record):
 - {APP_DOMAIN} -> PUBLIC IP ADDRESS
 - {TRAEFIK_DOMAIN} -> PUBLIC IP ADDRESS
 - {GRAFANA_DOMAIN} -> PUBLIC IP ADDRESS
