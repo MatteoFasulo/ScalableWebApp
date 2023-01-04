@@ -77,7 +77,7 @@ proxy:
       #container-volumes: [ "/tmp/vscode/#{proxy.userId}/work:/workspace"]
       stop-on-logout: true
       websocket-reconnection-mode: None
-      access-groups: admins
+      #access-groups: admins
 
     - id: rstudio
       container-image: openanalytics/shinyproxy-rstudio-ide-demo:2021.09.2_382__4.1.2
