@@ -13,6 +13,12 @@ If the firewall is enabled, the following ports must be opened:
 - 4789/udp # docker swarm
 - 7946 # docker swarm
 
+## Domains
+To be able to use this application you will need to point three different domains to your public IP address:
+- {APP_DOMAIN} -> PUBLIC IP ADDRESS
+- {TRAEFIK_DOMAIN} -> PUBLIC IP ADDRESS
+- {GRAFANA_DOMAIN} -> PUBLIC IP ADDRESS
+
 ## Environment
 In order to launch the application it is necessary to define some environment variables and save them in a file called `secrets.sh` in the same folder as `start.sh`:
 
