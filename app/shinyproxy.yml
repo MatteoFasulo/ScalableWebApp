@@ -17,6 +17,8 @@ services:
       - SMTP_MAIL_USER=${SMTP_MAIL_USER}
       - SMTP_MAIL_PASSWORD=${SMTP_MAIL_PASSWORD}
       - SMTP_MAIL_HOST=${SMTP_MAIL_HOST}
+      - TOKEN_URL=${TOKEN_URL}
+      - JWKS_URL=${JWKS_URL}
     deploy:
       replicas: 1
       restart_policy:
