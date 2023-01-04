@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  registry-mirror:
+    image: registry:latest
+    networks:
+      - sp-net
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      placement:
+        constraints:
+          - node.role==manager
+    environment:
+      - REGISTRY_AUTH='htpasswd'
+      - REGISTRY_AUTH_HTPASSWD_REALM='Registry'
+      - REGISTRY_AUTH_HTPASSWD_PATH='/auth/registry.password'
+      - REGISTRY_HTTP_ADDR='0.0.0.0:5000'
+      - REGISTRY_HTTP_TLS_CERTIFICATE='/keys/registry.crt'
+      - REGISTRY_HTTP_TLS_KEY='/keys/registry.key'
+    ports:
+      - 5000:5000
+    volumes:
+      - type: bind
+        source: /etc/docker/keys
+        target: /keys
+      - /root/docker-registry/auth:/auth
+
+networks:
+  sp-net:
+    external: true

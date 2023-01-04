@@ -1,0 +1,134 @@
+proxy:
+  port: 8020
+  
+  container-wait-time: 30000
+  heartbeat-rate: 10000
+  heartbeat-timeout: 60000
+
+  title: Open Analytics Shiny Proxy
+  logo-url: https://www.openanalytics.eu/shinyproxy/logo.png
+  landing-page: /
+  stop-proxies-on-shutdown: false
+  recover-running-proxies: true
+  recover-running-proxies-from-different-config: true
+
+  usage-stats-url: http://influxdb:8086/write?db=shinyproxy_usagestats
+  usage-stats-micrometer-prefix: shinyproxy
+
+  authentication: openid
+
+  #users:
+  #- name: jack
+  #  password: password
+  #  groups: scientists
+  #- name: jeff
+  #  password: password
+  #  groups: mathematicians
+  #- name: marco
+  #  password: password
+  #  groups: mathematicians
+  #- name: luca
+  #  password: password
+  #  groups: mathematicians
+
+  openid:
+    roles-claim: cognito:groups
+    auth-url: ${AUTH_URL}
+    token-url: https://shinyproxy.auth.eu-west-3.amazoncognito.com/oauth2/token
+    jwks-url: https://cognito-idp.eu-west-3.amazonaws.com/eu-west-3_BOjexV3hF/.well-known/jwks.json
+    logout-url: ${LOGOUT_URL}
+    client-id: ${CLIENT_ID}
+    client-secret: ${CLIENT_SECRET}
+    #scopes: ["openid", "profile", "email"]
+    #username-attribute: email
+  
+  container-backend: docker-swarm
+  
+  docker:
+      internal-networking: true
+  
+  support:
+    mail-to-address: ${EMAIL}
+  
+  specs:
+    - id: Amazon-Sentiment-Dashboard
+      display-name: Amazon Sentiment Dashboard
+      description: Sentiment Dashboard based on ASIN product of Amazon.com or Amazon.co.uk websites
+      container-cmd: ["R", "-e", "shiny::runApp('/root/amazon-dashboard', host = '0.0.0.0', port = 3838)"]
+      container-image: sp.batgames.it:5000/matteofasulo/amazon-dashboard:latest
+      container-network: sp-net
+      stop-on-logout: true
+      #access-groups: admins
+
+    - id: Streamlit-Computer-Vision 
+      display-name: Streamlit Computer Vision 
+      description: Streamlit test web app
+      container-cmd: ["streamlit", "run", "streamlit_app.py", "--server.port=8501", "--server.address=0.0.0.0", "--server.enableCORS=false", "--server.enableXsrfProtection=false"]
+      container-image: ghcr.io/matteofasulo/streamlit-cv:latest
+      container-network: sp-net
+      port: 8501
+      stop-on-logout: true
+
+    - id: vscode
+      container-image: codercom/code-server:latest
+      port: 8080
+      container-network: sp-net
+      container-cmd: ["/usr/bin/entrypoint.sh", "--bind-addr", "0.0.0.0:8080", "--auth=none", "--disable-update-check", "--disable-telemetry", "/workspace"]
+      #container-volumes: [ "/tmp/vscode/#{proxy.userId}/work:/workspace"]
+      stop-on-logout: true
+      websocket-reconnection-mode: None
+      access-groups: admins
+
+    - id: rstudio
+      container-image: openanalytics/shinyproxy-rstudio-ide-demo:2021.09.2_382__4.1.2
+      container-network: sp-net
+      container-env:
+        DISABLE_AUTH: true
+        USER: "#{proxy.userId}"
+        # Use the following line when using ShinyProxy 2.6.0 or later
+        WWW_ROOT_PATH: "#{proxy.getRuntimeValue('SHINYPROXY_PUBLIC_PATH')}"
+        # Use the following line when using ShinyProxy 2.5.0
+        # WWW_ROOT_PATH: "#{proxySpec.containerSpecs[0].env.get('SHINYPROXY_PUBLIC_PATH')}"
+      port: 8787
+      container-volumes: [ "/tmp/rstudio/#{proxy.userId}:/home/#{proxy.userId}" ]
+      stop-on-logout: true
+      access-groups: admins
+
+    - id: jupyter-notebook-lab
+      display-name: Jupyter Notebook Lab
+      description: Jupyter Notebook running in lab mode.
+      container-cmd: ["start-notebook.sh", "--NotebookApp.token=''", "--NotebookApp.base_url=#{proxy.getRuntimeValue('SHINYPROXY_PUBLIC_PATH')}"]
+      container-image: openanalytics/shinyproxy-juypter-datascience
+      container-network: sp-net
+      #container-volumes: [ "/tmp/jupyter/#{proxy.userId}/work:/home/jovyan/work"]
+      port: 8888
+      websocket-reconnection-mode: None
+      stop-on-logout: true
+      target-path: "#{proxy.getRuntimeValue('SHINYPROXY_PUBLIC_PATH')}"
+      container-env:
+        JUPYTER_ENABLE_LAB: yes
+      access-groups: admins
+
+server:
+  useForwardHeaders: true
+  forward-headers-strategy: "native"
+  #secure-cookies: true
+
+logging:
+  file:
+    name: /opt/shinyproxy/shinyproxy.log
+  level:
+    root: DEBUG
+
+spring:
+  mail:
+    host: ${SMTP_MAIL_HOST}
+    # TLS: 587 SSL: 465 Plain: 25
+    port: 587
+    username: ${SMTP_MAIL_USER}
+    password: ${SMTP_MAIL_PASSWORD}
+    properties: 
+      # For StartTLS
+      mail.smtp.starttls.enable: true
+      # For SSL
+      #mail.smtp.socketFactory.class: javax.net.ssl.SSLSocketFactory
