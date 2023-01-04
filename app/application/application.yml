@@ -34,8 +34,8 @@ proxy:
   openid:
     roles-claim: cognito:groups
     auth-url: ${AUTH_URL}
-    token-url: https://shinyproxy.auth.eu-west-3.amazoncognito.com/oauth2/token
-    jwks-url: https://cognito-idp.eu-west-3.amazonaws.com/eu-west-3_BOjexV3hF/.well-known/jwks.json
+    token-url: ${TOKEN_URL}
+    jwks-url: ${JWKS_URL}
     logout-url: ${LOGOUT_URL}
     client-id: ${CLIENT_ID}
     client-secret: ${CLIENT_SECRET}
@@ -77,7 +77,7 @@ proxy:
       #container-volumes: [ "/tmp/vscode/#{proxy.userId}/work:/workspace"]
       stop-on-logout: true
       websocket-reconnection-mode: None
-      #access-groups: admins
+      access-groups: admins
 
     - id: rstudio
       container-image: openanalytics/shinyproxy-rstudio-ide-demo:2021.09.2_382__4.1.2
@@ -92,7 +92,7 @@ proxy:
       port: 8787
       container-volumes: [ "/tmp/rstudio/#{proxy.userId}:/home/#{proxy.userId}" ]
       stop-on-logout: true
-      access-groups: admins
+      #access-groups: admins
 
     - id: jupyter-notebook-lab
       display-name: Jupyter Notebook Lab
