@@ -16,13 +16,13 @@ docker node update --label-add traefik-public.traefik-public-certificates=true $
 # Env variables for let's encrypt ssl certificate and password for traefik dashboard
 export EMAIL=$EMAIL
 export DOMAIN=$TRAEFIK_DOMAIN
-export USERNAME=$USERNAME
+export TRAEFIK_USERNAME=$TRAEFIK_USERNAME
 export HASHED_PASSWORD=$(openssl passwd -apr1 $TRAEFIK_PASSWORD)
 
 export DOCKER_GID=$(stat -c '%g' /var/run/docker.sock)
 
 # App domain
-export APP_DOMAIN=sp.batgames.it
+export APP_DOMAIN=$APP_DOMAIN
 
 # Internal overlay network for all containers behind Traefik 
 docker network create --driver=overlay sp-net
