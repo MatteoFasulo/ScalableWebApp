@@ -1,12 +1,12 @@
 # How to start
 ## Docker
-Se Docker non fosse installato nel server, il comando da eseguire è il seguente:
+If Docker is not installed on the server, the command to run is the following:
 ```sh
 curl -fsSl https://get.docker.com/ -o get-docker.sh && sh get-docker.sh
 ```
 
 ## Networking
-Se il firewall è abilitato bisogna aprire le seguenti porte:
+If the firewall is enabled, the following ports must be opened:
 - 80/tcp # http
 - 443/tcp # https
 - 2377/tcp # docker swarm
@@ -14,23 +14,23 @@ Se il firewall è abilitato bisogna aprire le seguenti porte:
 - 7946 # docker swarm
 
 ## Environment
-Per poter lanciare l'applicativo è necessario definire alcune variabili d'ambiente e salvarle in un file chiamato `secrets.sh` nella stessa cartella dello `start.sh`:
+In order to launch the application it is necessary to define some environment variables and save them in a file called `secrets.sh` in the same folder as `start.sh`:
 
 | Variable Name | Description |
 | ------ | ------ |
-| APP_DOMAIN | indirizzo web del sito pubblico a cui accedere |
-| EMAIL | Indirizzo email per il supporto ed assistenza sia dei certificati web che dell'applicazione |
-| SMTP_MAIL_USER | username del server SMTP per l'invio di email |
-| SMTP_MAIL_PASSWORD | password del server SMTP per l'invio di email |
-| SMTP_MAIL_HOST | indirizzo dell'host del server SMTP per l'invio di email |
-| TRAEFIK_DOMAIN | indirizzo web della dashboard di traefik |
-| TRAEFIK_USERNAME | username della dashboard di traefik per l'accesso |
-| TRAEFIK_PASSWORD | password della dashboard di traefik per l'accesso |
-| GRAFANA_DOMAIN | indirizzo web della dashboard di grafana |
-| ADMIN_USER | username della dashboard di grafana |
-| ADMIN_PASSWORD | password della dashboard di grafana |
-| CLIENT_ID | client ID di AWS Cognito User Pool |
-| CLIENT_SECRET | client secret di AWS Cognito User Pool |
+| APP_DOMAIN | web address of the public site to access |
+| EMAIL | email address for support and assistance of both web certificates and the application |
+| SMTP_MAIL_USER | SMTP server username for sending emails |
+| SMTP_MAIL_PASSWORD | SMTP server password for sending emails |
+| SMTP_MAIL_HOST | SMTP server host for sending emails |
+| TRAEFIK_DOMAIN | web address of Traefik dashboard |
+| TRAEFIK_USERNAME | username of the traefik dashboard for access |
+| TRAEFIK_PASSWORD | password of the traefik dashboard for access |
+| GRAFANA_DOMAIN | web address of the dashboard of Grafana |
+| ADMIN_USER | username of the dashboard of grafana |
+| ADMIN_PASSWORD | grafana dashboard password |
+| CLIENT_ID | AWS Cognito User Pool client ID |
+| CLIENT_SECRET | AWS Cognito User Pool client secret |
 | AUTH_URL | https://{cognito_domain_prefix}.auth.{region}.amazoncognito.com/oauth2/authorize?response_type=code&client_id={CLIENT_ID} |
 | LOGOUT_URL | https://{cognito_domain_prefix}.auth.{region}.amazoncognito.com/logout?client_id={CLIENT_ID}&logout_uri={APP_DOMAIN}/logout-success |
 | TOKEN_URL | https://{cognito_domain_prefix}.auth.{region}.amazoncognito.com/oauth2/token |
