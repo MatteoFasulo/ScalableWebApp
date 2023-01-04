@@ -34,7 +34,7 @@ Per poter lanciare l'applicativo è necessario definire alcune variabili d'ambie
 | AUTH_URL | https://{cognito_domain_prefix}.auth.{region}.amazoncognito.com/oauth2/authorize?response_type=code&client_id={CLIENT_ID} |
 | LOGOUT_URL | https://{cognito_domain_prefix}.auth.{region}.amazoncognito.com/logout?client_id={CLIENT_ID}&logout_uri={APP_DOMAIN}/logout-success |
 | TOKEN_URL | https://{cognito_domain_prefix}.auth.{region}.amazoncognito.com/oauth2/token |
-| JWKS_URL | 'https://cognito-idp.{region}.amazonaws.com/{POOL_ID}/.well-known/jwks.json' |
+| JWKS_URL | https://cognito-idp.{region}.amazonaws.com/{POOL_ID}/.well-known/jwks.json |
 
 ## Startup
 #### Start
