@@ -42,6 +42,9 @@ In order to launch the application it is necessary to define some environment va
 | TOKEN_URL | https://{cognito_domain_prefix}.auth.{region}.amazoncognito.com/oauth2/token |
 | JWKS_URL | https://cognito-idp.{region}.amazonaws.com/{POOL_ID}/.well-known/jwks.json |
 
+## AWS Cognito
+For a guide on how to setup AWS Cognito Auth [check this link](https://www.databentobox.com/2020/05/03/secure-shinyproxy/#:~:text=the%20next%20steps.-,Step%205%3A%20Setting%20up%20AWS%20Cognito%20(Optional),-If%20you%20decide)
+
 ## Startup
 #### Start
 ```sh
