@@ -5,7 +5,7 @@ We used Ansible to configure all the VMs necessary for the infrastructure to fun
 We have created a series of playbooks for initial configuration, copying, starting and stopping the Docker Swarm; we have also configured the join in the Docker Swarm in a fully automatic way by the other manager nodes as well as for the worker nodes. There is also a small SH script to optimize the SWAP and Network of individual nodes.
 
 ## Playbooks
-To be able to use playbooks correctly you have to create the swarm-mode directory in `/root/swarm-mode` with the [app](https://google.com) content of this repository. The `swap_and_network.sh` script must be placed in the `root` folder.
+To be able to use playbooks correctly you have to create the swarm-mode directory in `/root/swarm-mode` with the [app](https://github.com/MatteoFasulo/ScalableWebApp/tree/main/app) content of this repository. The `swap_and_network.sh` script must be placed in the `root` folder.
 
 #### Run a playbook
 ```sh
