@@ -1,4 +1,4 @@
-version: '3.3'
+version: '3.8'
 
 services:
 
@@ -8,9 +8,11 @@ services:
       - "80:80"
       - "443:443"
     deploy:
+      mode: global
       placement:
         constraints:
-          - node.labels.traefik-public.traefik-public-certificates == true
+          #- node.labels.traefik-public.traefik-public-certificates == true
+          - node.role==manager
       labels:
         - traefik.enable=true
 

@@ -1,4 +1,4 @@
-version: '3.3'
+version: '3.8'
 
 services:
   shinyproxy:
@@ -20,12 +20,12 @@ services:
       - TOKEN_URL=${TOKEN_URL}
       - JWKS_URL=${JWKS_URL}
     deploy:
+      #mode: global
       replicas: 1
-      restart_policy:
-        condition: on-failure
       placement:
         constraints:
           - node.role==manager
+          #- node.hostname==Manager-3
       labels:
           - traefik.enable=true # enable traefik
           - traefik.docker.network=traefik-public # put it in the same network as traefik

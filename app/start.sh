@@ -92,6 +92,7 @@ service_stop() {
 docker swarm leave -f # leave swarm forcing it 
 docker network prune -f # remove all networks avoiding errors
 }
+
 case "$1" in
         'start')
         service_start
