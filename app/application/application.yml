@@ -1,7 +1,7 @@
 proxy:
   port: 8020
   
-  container-wait-time: 30000
+  container-wait-time: 40000
   heartbeat-rate: 10000
   heartbeat-timeout: 60000
 
@@ -90,7 +90,7 @@ proxy:
         # Use the following line when using ShinyProxy 2.5.0
         # WWW_ROOT_PATH: "#{proxySpec.containerSpecs[0].env.get('SHINYPROXY_PUBLIC_PATH')}"
       port: 8787
-      container-volumes: [ "/tmp/rstudio/#{proxy.userId}:/home/#{proxy.userId}" ]
+      #container-volumes: [ "/tmp/#{proxy.userId}:/home/#{proxy.userId}" ]
       stop-on-logout: true
       #access-groups: admins
 
