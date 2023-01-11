@@ -1,0 +1,30 @@
+services:
+  nginx:
+    image : nginx:1.23
+    container_name: nginx
+    restart: "unless-stopped"
+    network_mode: "host"
+    secrets:
+      - source: ssl_fullchain
+        target: /etc/letsencrypt/live/YOUR_DOMAIN/fullchain.pem
+        mode: 0444
+      - source: ssl_privkey
+        target: /etc/letsencrypt/live/YOUR_DOMAIN/privkey.pem
+        mode: 0400
+      - source: ssl_chain
+        target: /etc/letsencrypt/live/YOUR_DOMAIN/chain.pem
+        mode: 0444
+    volumes:
+      - ./data/nginx.conf:/etc/nginx/nginx.conf
+      - ./data/server.conf:/etc/nginx/conf.d/server.conf
+      - ./data/502.html:/usr/share/nginx/html/502.html
+
+secrets:
+  ssl_fullchain:
+    file: ./data/fullchain.pem
+  ssl_privkey:
+    file: ./data/privkey.pem
+  ssl_cert:
+    file: ./data/cert.pem
+  ssl_chain:
+    file: ./data/chain.pem
