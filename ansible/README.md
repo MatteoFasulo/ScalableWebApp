@@ -1,0 +1,2 @@
+# Ansible
+We used Ansible to configure all the VMs necessary for the infrastructure to function. Ansible allows you to configure VMs in an agentless way by simply executing commands via the SSH protocol. We have created a series of playbooks for initial configuration, copying, starting and stopping the Docker Swarm; we have also configured the join in the Docker Swarm in a fully automatic way by the other manager nodes as well as for the worker nodes. There is also a small SH script to optimize the SWAP and Network of individual nodes.
