@@ -14,6 +14,7 @@ ansible-playbook <PLAYBOOK_NAME.yml>
 
 ## Hosts file
 You need to edit the `hosts` file by changing the public IP addresses of the VMs to be used as manager and worker nodes; for SSH access [Ansible] uses public-key encryption so you will need to create a pair of SSH keys and provide [Ansible] with the private key for SSH access to the VMs.
+> **Info:** You will need to place hosts file in `/etc/ansible/hosts`.
 
 
 
