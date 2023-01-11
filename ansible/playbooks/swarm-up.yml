@@ -1,0 +1,56 @@
+---
+- hosts: manager
+  become: true
+  tasks:
+    - name: Docker Swarm - leave Docker swarm
+      command: docker swarm leave -f
+      ignore_errors: yes
+          
+- hosts: manager1
+  become: true
+  tasks:
+    - name: Docker Swarm - Init swarm
+      shell: ./start.sh start
+      args:
+        chdir: /root/swarm-mode
+
+    - name: System - Get manager Public IP
+      command: curl ifconfig.io
+      register: docker_swarm_manager_ipv4_address
+
+    - name: Docker Swarm - Retrieve manager join-token
+      command: docker swarm join-token -q manager
+      register: docker_swarm_new_manager_token
+
+    - name: Docker Swarm - Retrieve worker join-token
+      command: docker swarm join-token -q worker
+      register: docker_swarm_new_worker_token
+
+#    - name: Display all variables/facts known for a host
+#      debug:
+#        var: hostvars[inventory_hostname]
+#      tags: debug_info
+
+- hosts: manager
+  become: true
+  tasks:
+    - name: Docker Swarm - join Docker Swarm as manager
+      command: docker swarm join --token '{{ hostvars.manager1.docker_swarm_new_manager_token.stdout }}' '{{ hostvars.manager1.docker_swarm_manager_ipv4_address.stdout }}:2377'
+      ignore_errors: yes
+
+- hosts: worker
+  become: true
+  tasks:
+  #  - name: RStudio - mkdir workdir
+  #    file:
+  #      path: /tmp/rstudio
+  #      state: directory
+  #      mode: 777
+
+    - name: Docker Swarm - leave Docker swarm
+      command: docker swarm leave
+      ignore_errors: yes
+
+    - name: Docker Swarm - join Docker swarm as worker
+      command: docker swarm join --token '{{ hostvars.manager1.docker_swarm_new_worker_token.stdout }}' '{{ hostvars.manager1.docker_swarm_manager_ipv4_address.stdout }}:2377'
+      ignore_errors: yes

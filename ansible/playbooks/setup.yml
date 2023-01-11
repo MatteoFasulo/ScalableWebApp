@@ -1,0 +1,87 @@
+---
+- hosts: all
+  become: true
+  tasks:
+    - name: Install aptitude
+      apt:
+        name: aptitude
+        state: latest
+        update_cache: true
+
+    - name: Disable password authentication for root
+      lineinfile:
+        path: /etc/ssh/sshd_config
+        state: present
+        regexp: '^#?PermitRootLogin'
+        line: 'PermitRootLogin prohibit-password'
+
+    - name: Update apt and install required system packages
+      apt:
+        pkg:
+          - curl
+          - nano
+          - git
+          - ufw
+          - htop
+        state: latest
+        update_cache: true
+
+    - name: Upgrade all apt packages
+      apt: 
+        upgrade: yes
+        update_cache: yes
+
+    - name: UFW - Allow SSH connections
+      community.general.ufw:
+        rule: allow
+        name: OpenSSH
+
+    - name: UFW - Enable and deny by default
+      community.general.ufw:
+        state: enabled
+        default: deny
+    
+    - name: Docker - Downloading Docker
+      command: curl -fsSl https://get.docker.com/ -o get-docker.sh
+    
+    - name: Docker - Install Docker
+      command: sh get-docker.sh
+      
+    - name: Swap - Optimizing Swap and Network
+      script: /root/swap_and_network.sh
+      ignore_errors: yes
+
+- hosts: manager:worker
+  become: true
+  tasks:
+    - name: UFW - Enable Swarm Ports
+      community.general.ufw:
+        rule: allow
+        port: '7946'
+
+    - name: UFW - Enable Swarm Ports
+      community.general.ufw:
+        rule: allow
+        port: '4789'
+        proto: udp
+        
+- hosts: manager
+  become: true
+  tasks:
+    - name: UFW - Enable Swarm Port
+      community.general.ufw:
+        rule: allow
+        port: '2377'
+        proto: tcp
+    
+    - name: UFW - Enable HTTPS
+      community.general.ufw:
+        rule: allow
+        port: '443'
+        proto: tcp
+        
+#- hosts: all
+#  become: true
+#  tasks:
+#    - name: System - Reboot
+#      command: shutdown -r now

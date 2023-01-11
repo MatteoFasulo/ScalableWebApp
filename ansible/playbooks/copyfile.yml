@@ -1,0 +1,10 @@
+---
+- hosts: manager
+  become: true
+  tasks:
+    - name: System - Copy files
+      copy: 
+        src: /root/swarm-mode/
+        dest: /root/swarm-mode/
+        mode: '770'
+        force: 'yes'

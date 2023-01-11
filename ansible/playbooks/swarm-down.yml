@@ -1,0 +1,19 @@
+---
+- hosts: manager
+  become: true
+  tasks:
+    - name: Docker Swarm - leave Docker swarm
+      command: docker swarm leave -f
+      ignore_errors: yes
+
+    - name: Docker - restart
+      command: systemctl restart docker
+      ignore_errors: yes
+
+- hosts: manager1
+  become: true
+  tasks:
+    - name: Docker Swarm - Stop swarm
+      shell: ./start.sh stop
+      args:
+        chdir: /root/swarm-mode
