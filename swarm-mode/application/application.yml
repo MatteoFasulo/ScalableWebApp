@@ -55,7 +55,7 @@ proxy:
       display-name: Amazon Sentiment Dashboard
       description: Sentiment Dashboard based on ASIN product of Amazon.com or Amazon.co.uk websites
       container-cmd: ["R", "-e", "shiny::runApp('/root/amazon-dashboard', host = '0.0.0.0', port = 3838)"]
-      container-image: sp.batgames.it:5000/matteofasulo/amazon-dashboard:latest
+      container-image: ghcr.io/matteofasulo/amazon-dashboard:1.0
       container-network: sp-net
       stop-on-logout: true
       #access-groups: admins
